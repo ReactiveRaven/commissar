@@ -12,3 +12,4 @@ www/web/bundles/*
 www/app/config/parameters.ini
 www/app/config/parameters.yml
 /nbproject/private/
+.vagrant
