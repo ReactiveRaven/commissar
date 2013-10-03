@@ -1,0 +1,38 @@
+security:
+    encoders:
+        AA\SecurityBundle\Entity\User:
+            algorithm:        sha1
+            encode_as_base64: false
+            iterations:       1
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
+
+    providers:
+        users:
+            entity: { class: AcmeUserBundle:User }
+
+    firewalls:
+        main:
+            pattern: ^/
+            provider: users
+            form_login:
+                check_path: /login_check
+                login_path: /login
+                logout: 
+                    path: /logout
+                    target: /
+                use_referer: true
+                
+            remember_me:
+                key:      "%secret%"
+                lifetime: 31536000 # 365 days in seconds
+                path:     /
+                domain:   ~ # Defaults to the current domain from $_SERVER
+                
+            security: true
+            anonymous: true
+
+    access_control: ~
+#        - { path: ^/admin, roles: ROLE_ADMIN }
